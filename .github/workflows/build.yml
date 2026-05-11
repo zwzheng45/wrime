@@ -12,6 +12,8 @@ jobs:
     runs-on: ${{ inputs.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true
       - name: Install Ubuntu dependencies
         if: ${{ inputs.os == 'ubuntu-latest' }}
         # no need to use clang if gcc 12 becomes default
@@ -42,7 +44,7 @@ jobs:
           node-version: 21.x
       - name: Install node dependencies
         run: |
-          npm i -g pnpm
+          npm i -g pnpm@9.15.9
           pnpm i
       - name: Get submodules
         run: |

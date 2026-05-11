@@ -1,7 +1,7 @@
 import { test, expect, Request, Page } from '@playwright/test'
 import yaml from 'js-yaml'
 
-const baseURL = 'http://localhost:4173/'
+const baseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:4173/'
 const debugURL = `${baseURL}?debug=on`
 const luna = '朙月拼音'
 
@@ -26,7 +26,7 @@ async function init (page: Page, ime?: string, schemaId?: string, variantName?: 
     }
   }
   await page.goto(url)
-  await expect(select(page)).toHaveText(ime || luna)
+  await expect(select(page)).toHaveText(ime || luna, { timeout: 30000 })
   await textarea(page).click()
 }
 

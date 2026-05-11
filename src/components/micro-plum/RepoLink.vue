@@ -19,7 +19,7 @@ function repo2gh (repo: string) {
   >
     <n-text
       :type="license ? 'success' : 'warning'"
-      :title="license ? 'Free' : 'Proprietary'"
+      :title="license ? '自由软件' : '专有软件'"
     >
       {{ repo }}
     </n-text>

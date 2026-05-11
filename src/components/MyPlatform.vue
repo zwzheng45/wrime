@@ -61,17 +61,17 @@ const platforms: {
   },
   {
     icon: Terminal,
-    title: 'Command Line',
+    title: '命令行',
     content: () => generateContent('librime', '中州韵输入法引擎', 'https://github.com/rime/librime')
   },
-  { icon: InternetExplorer, title: 'Web', description: 'My RIME ⭐ You are here' }
+  { icon: InternetExplorer, title: '网页', description: 'wRIME ⭐ 你在这里' }
 ]
 </script>
 
 <template>
   <my-feature-panel
     style="text-align: center"
-    title="Love RIME? Install Open Source IME on your platform!"
+    title="喜欢 RIME 吗？还可在更多平台上使用！"
     :features="platforms"
   />
 </template>

@@ -10,3 +10,6 @@
 [submodule "librime-lua"]
 	path = librime-lua
 	url = https://github.com/hchunhui/librime-lua
+[submodule "librime-octagram"]
+	path = librime-octagram
+	url = https://github.com/lotem/librime-octagram

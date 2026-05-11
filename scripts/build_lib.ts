@@ -153,6 +153,10 @@ function buildLibrime () {
   if (!existsSync(luaPluginLink)) {
     symlinkSync('../../librime-lua', luaPluginLink, 'dir')
   }
+  const octagramPluginLink = 'librime/plugins/octagram'
+  if (!existsSync(octagramPluginLink)) {
+    symlinkSync('../../librime-octagram', octagramPluginLink, 'dir')
+  }
 
   const luaParent = 'librime-lua/thirdparty'
   const luaLink = `${luaParent}/lua5.4`
@@ -174,6 +178,7 @@ function buildLibrime () {
     `-DCMAKE_FIND_ROOT_PATH:PATH=${CMAKE_FIND_ROOT_PATH}`,
     '-DBUILD_TEST:BOOL=OFF',
     '-DBUILD_STATIC:BOOL=ON',
+    '-DBUILD_TOOLS:BOOL=OFF',
     '-DENABLE_THREADING:BOOL=OFF',
     '-DENABLE_TIMESTAMP:BOOL=OFF',
     `-DENABLE_LOGGING:BOOL=${ENABLE_LOGGING}`

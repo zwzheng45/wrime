@@ -1,0 +1,2 @@
+## LTS-only phrase overrides loaded with wanxiang-lts-zh-hans.gram.
+渐渐的就不在意了	jmjmdejqbuzdyile	100

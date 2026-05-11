@@ -1,5 +1,7 @@
 import {
-  rmSync
+  existsSync,
+  rmSync,
+  symlinkSync
 } from 'fs'
 import { platform } from 'os'
 import { cwd, chdir } from 'process'
@@ -46,6 +48,7 @@ const CMAKE_DEF_RIME = [
   '-DBUILD_SHARED_LIBS:BOOL=ON',
   ...(PLATFORM === 'linux' ? [] : ['-DBUILD_STATIC:BOOL=ON']),
   '-DBUILD_TEST:BOOL=OFF',
+  '-DBUILD_TOOLS:BOOL=OFF',
   `-DBoost_INCLUDE_DIR:PATH=${root}/build/sysroot/usr/include`,
   '-DENABLE_TIMESTAMP:BOOL=OFF',
   '-DENABLE_LOGGING:BOOL=OFF'
@@ -128,6 +131,10 @@ function buildLibrime () {
   console.log('Building librime')
 
   rmSync('librime/plugins/lua', rf)
+  const octagramPluginLink = 'librime/plugins/octagram'
+  if (!existsSync(octagramPluginLink)) {
+    symlinkSync('../../librime-octagram', octagramPluginLink, 'dir')
+  }
 
   const src = 'librime'
   patch(src, 'librime_patch')

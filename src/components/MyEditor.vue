@@ -45,7 +45,7 @@ onMounted(() => {
       type="info"
       @click="deploy()"
     >
-      Deploy
+      部署
     </n-button>
     <wasm-code
       ref="wc"

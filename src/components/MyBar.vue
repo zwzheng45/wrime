@@ -43,12 +43,14 @@ async function copyLink () {
     <n-button-group class="square-group">
       <n-button
         secondary
+        title="剪切"
         @click="cut"
       >
         <n-icon :component="Cut20Regular" />
       </n-button>
       <n-button
         secondary
+        title="复制"
         @click="copy"
       >
         <n-icon :component="Copy20Regular" />
@@ -56,7 +58,7 @@ async function copyLink () {
       <n-button
         :disabled="loading || deployed"
         secondary
-        title="Copy link for current IME"
+        title="复制当前输入方案链接"
         @click="copyLink"
       >
         <n-icon :component="ClipboardLink20Regular" />
@@ -64,7 +66,7 @@ async function copyLink () {
     </n-button-group>
     <!-- Least astonishment: user may explicitly cut, so shouldn't overwrite the clipboard. -->
     <n-checkbox v-model:checked="autoCopy">
-      Auto copy on commit
+      提交后自动复制
     </n-checkbox>
   </n-space>
 </template>

@@ -1,17 +1,23 @@
 {
-  "name": "@libreservice/my-rime",
-  "version": "0.10.9",
+  "name": "@zwzheng45/wrime",
+  "version": "0.11.0",
   "files": [
     "dist"
   ],
   "type": "module",
-  "appName": "My RIME",
-  "homepage": "https://github.com/LibreService/my_rime",
+  "appName": "wRIME",
+  "homepage": "https://github.com/zwzheng45/wrime",
   "author": {
     "name": "Qijia Liu",
     "email": "liumeo@pku.edu.cn",
     "url": "https://github.com/eagleoflqj"
   },
+  "contributors": [
+    {
+      "name": "Ryan Zheng",
+      "email": "i@rayann.cn"
+    }
+  ],
   "license": "AGPL-3.0-or-later",
   "scripts": {
     "submodule": "node --loader ts-node/esm scripts/update_submodule.ts",

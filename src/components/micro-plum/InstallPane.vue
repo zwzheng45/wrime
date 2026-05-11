@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import {
   useMessage,
   NForm,
@@ -43,7 +43,7 @@ const schemaURL = ref<string>('')
 const target = ref<string>('')
 const schemas = ref<string[]>([])
 const installPrerequisites = ref<boolean>(!installedPrerequisites.value)
-const installPrerequisitePrompt = `${installedPrerequisites.value ? 'Reinstall' : 'Install'} essay, prelude and emoji`
+const installPrerequisitePrompt = computed(() => `${installedPrerequisites.value ? '重新安装' : '安装'} essay、prelude 和 emoji 基础资源`)
 
 const rules = {
   target: {
@@ -52,7 +52,7 @@ const rules = {
       if (mode.value !== 'plum') {
         return
       }
-      const error = new Error('Invalid plum target')
+      const error = new Error('无效的 Plum 目标')
       if (target.value) {
         const normalized = normalizeTarget(target.value)
         if (!normalized || normalized.schema) {
@@ -70,13 +70,13 @@ const rules = {
       }
       for (const schema of schemas.value) {
         if (!schemaPattern.test(schema)) {
-          return new Error(`Invalid schema id: ${schema}`)
+          return new Error(`无效的方案 ID：${schema}`)
         }
       }
       if (schemas.value.length === 0 &&
         target.value &&
         !prerequisites.includes(normalizeTarget(target.value)?.repo!)) {
-        return new Error('Please provide at least one schema')
+        return new Error('请至少提供一个方案 ID')
       }
     }
   },
@@ -88,7 +88,7 @@ const rules = {
       }
       if ((schemaURL.value && !normalizeTarget(schemaURL.value)?.schema) ||
         (!schemaURL.value && !installPrerequisites.value)) {
-        return new Error('Invalid URL')
+        return new Error('无效的 URL')
       }
     }
   }
@@ -132,7 +132,7 @@ async function onClick () {
     :disabled="downloading"
     :rules="rules"
   >
-    <n-form-item label="Source">
+    <n-form-item label="来源">
       <n-radio-group v-model:value="source">
         <n-radio
           v-for="src of ['GitHub', 'jsDelivr']"
@@ -143,29 +143,29 @@ async function onClick () {
         </n-radio>
       </n-radio-group>
     </n-form-item>
-    <n-form-item label="Mode">
+    <n-form-item label="模式">
       <n-radio-group v-model:value="mode">
         <n-radio value="schema">
-          Schema
+          单个方案
         </n-radio>
         <n-radio value="plum">
-          Plum
+          Plum 仓库
         </n-radio>
       </n-radio-group>
     </n-form-item>
     <n-form-item
       v-show="mode === 'plum'"
-      label="Target"
+      label="目标"
       path="target"
     >
       <n-input
         v-model:value="target"
-        placeholder="e.g. rime/rime-luna-pinyin"
+        placeholder="例如 rime/rime-luna-pinyin"
       />
     </n-form-item>
     <n-form-item
       v-show="mode === 'plum'"
-      label="Schemas"
+      label="方案 ID"
       path="schemas"
     >
       <n-dynamic-tags v-model:value="schemas">
@@ -180,22 +180,22 @@ async function onClick () {
             <template #icon>
               <n-icon :component="Add12Regular" />
             </template>
-            e.g. luna_pinyin
+            例如 luna_pinyin
           </n-button>
         </template>
       </n-dynamic-tags>
     </n-form-item>
     <n-form-item
       v-show="mode === 'schema'"
-      label="Schema URL"
+      label="方案 URL"
       path="schemaURL"
     >
       <n-input
         v-model:value="schemaURL"
-        placeholder="GitHub URL of *.schema.yaml"
+        placeholder="GitHub 上 *.schema.yaml 的 URL"
       />
     </n-form-item>
-    <n-form-item label="Extra">
+    <n-form-item label="附加资源">
       <n-checkbox v-model:checked="installPrerequisites">
         {{ installPrerequisitePrompt }}
       </n-checkbox>
@@ -208,7 +208,7 @@ async function onClick () {
       :disabled="downloading"
       @click="onClick"
     >
-      Install
+      安装
     </n-button>
   </div>
 </template>

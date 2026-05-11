@@ -1,12 +1,13 @@
-FROM node:20.4.0-bookworm as builder
+FROM node:20.4.0-bookworm AS builder
 
 ARG ENABLE_LOGGING=ON
 
-ENV ENABLE_LOGGING ${ENABLE_LOGGING}
+ENV ENABLE_LOGGING=${ENABLE_LOGGING}
 
 # Install tools and dependencies
 RUN apt update && apt install -y \
     cmake \
+    git-lfs \
     ninja-build \
     libboost-dev \
     libboost-regex-dev \
@@ -24,8 +25,10 @@ RUN git clone https://github.com/emscripten-core/emsdk.git && \
 COPY / /my_rime
 WORKDIR /my_rime
 
+RUN git lfs install --force && git lfs pull
+
 # Install pnpm and dev dependencies
-RUN npm i -g pnpm && \
+RUN npm i -g pnpm@9.15.9 && \
     pnpm i
 
 # Get submodules and font
@@ -40,6 +43,10 @@ RUN export PATH="$PATH:/emsdk/upstream/emscripten" && \
     pnpm run wasm
 
 # Build webapp
+ARG LIBRESERVICE_CDN=
+ARG RIME_CDN=
+ENV LIBRESERVICE_CDN=${LIBRESERVICE_CDN}
+ENV RIME_CDN=${RIME_CDN}
 RUN pnpm run build
 
 

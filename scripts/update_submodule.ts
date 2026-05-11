@@ -13,20 +13,32 @@ const spawnArg: SpawnSyncOptionsWithBufferEncoding = {
 }
 
 function update (submodule: string, boost?: boolean) {
-  ensure(spawnSync('git', [
+  const args = [
     'submodule',
     'update',
     '--init',
     ...(boost ? ['--depth', '1'] : ['--recursive']),
     '-f',
     submodule
-  ], spawnArg))
+  ]
+  let result: ReturnType<typeof spawnSync> | undefined
+  for (let attempt = 1; attempt <= 3; ++attempt) {
+    result = spawnSync('git', args, spawnArg)
+    if (result.status === 0) {
+      return
+    }
+    if (attempt < 3) {
+      console.warn(`Retrying submodule '${submodule}' (${attempt + 1}/3).`)
+    }
+  }
+  ensure(result!)
 }
 
 for (const submodule of [
   'librime',
   'lua',
-  'librime-lua'
+  'librime-lua',
+  'librime-octagram'
 ]) {
   update(submodule)
 }

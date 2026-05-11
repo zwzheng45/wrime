@@ -4,15 +4,16 @@ import vue from '@vitejs/plugin-vue'
 import replace from '@rollup/plugin-replace'
 import { run } from 'vite-plugin-run'
 import { VitePWA, VitePWAOptions } from 'vite-plugin-pwa'
-import { appName } from './package.json'
 
 const resources = ['rime.data', 'rime.js', 'rime.wasm']
+const appName = 'wRIME - 基于 RIME 的在线中文输入法'
+const shortAppName = 'wRIME'
 
 const workbox: VitePWAOptions["workbox"] = {
   maximumFileSizeToCacheInBytes: 3145728,
   globPatterns: [
     '**/*.{js,css,html}',
-    'apple-touch-icon.png',
+    'logo.svg',
     ...resources
   ]
 }
@@ -41,10 +42,10 @@ const plugins = [
     workbox,
     manifest: {
       name: appName,
-      short_name: appName,
+      short_name: shortAppName,
       icons: [
         {
-          src: 'LibreService.svg',
+          src: 'logo.svg',
           sizes: 'any',
           type: 'image/svg+xml',
           purpose: 'any maskable',
@@ -60,6 +61,7 @@ if (process.env.NODE_ENV !== 'production') {
     'worker.ts',
     'schema-files.json',
     'schema-name.json',
+    'schema-resources.json',
     'schema-target.json',
     'dependency-map.json',
     'target-files.json',

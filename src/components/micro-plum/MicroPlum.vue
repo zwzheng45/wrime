@@ -59,7 +59,7 @@ async function showRPPI () {
       }, () => [h(ManifestPane, { message })]),
       h(NTabPane, {
         name: 'deploy',
-        tab: 'Deploy'
+        tab: '部署'
       }, () => [h(DeployPane, {
         dialogInstance
       })])
@@ -71,7 +71,7 @@ function showMicroPlum () {
   tab.value = 'install'
   preSelectedSchemas.value = []
   const dialogInstance = dialog.info({
-    title: 'Micro Plum',
+    title: 'Micro Plum 安装',
     content: () => h(NTabs, {
       type: 'segment',
       value: tab.value,
@@ -79,11 +79,11 @@ function showMicroPlum () {
     }, () => [
       h(NTabPane, {
         name: 'install',
-        tab: 'Install'
+        tab: '安装'
       }, () => [h(InstallPane, { message })]),
       h(NTabPane, {
         name: 'deploy',
-        tab: 'Deploy'
+        tab: '部署'
       }, () => [h(DeployPane, {
         dialogInstance
       })])
@@ -102,7 +102,7 @@ async function onReset () {
 
 <template>
   <n-space style="align-items: center">
-    <h3>Add new schemas</h3>
+    <h3>添加输入方案</h3>
     <n-button
       secondary
       type="info"
@@ -122,7 +122,7 @@ async function onReset () {
       type="error"
       @click="onReset"
     >
-      Reset
+      重置
     </n-button>
   </n-space>
 </template>

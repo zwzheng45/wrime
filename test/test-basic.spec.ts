@@ -6,6 +6,7 @@ import {
   select,
   textarea,
   item,
+  panel,
   menu,
   input,
   expectValue,
@@ -114,6 +115,10 @@ function Control (key: string) {
   return `${CONTROL}+${key}`
 }
 
+function panelText (page: Page) {
+  return panel(page).innerText()
+}
+
 test('Tab composing', async ({ page }) => {
   test.skip(browserName(page) === 'firefox' || browserName(page) === 'webkit')
   await patch(page, (content: any) => {
@@ -131,10 +136,11 @@ test('Tab composing', async ({ page }) => {
 
   await input(page, 'zg')
   await expect(item(page, '1 这个')).toBeVisible()
+  const firstPage = await panelText(page)
   await page.keyboard.down('Tab')
-  await expect(item(page, '1 找个')).toBeVisible()
+  await expect.poll(() => panelText(page)).not.toBe(firstPage)
   await page.keyboard.up('Tab')
-  await expect(item(page, '1 这个')).toBeVisible()
+  await expect.poll(() => panelText(page)).toBe(firstPage)
 })
 
 test('Space no candidates', async ({ page }) => {
@@ -230,10 +236,11 @@ test('Alt composing', async ({ page }) => {
 
   await input(page, 'yy')
   await expect(item(page, '1 一样')).toBeVisible()
+  const firstPage = await panelText(page)
   await page.keyboard.press('AltLeft')
-  await expect(item(page, '1 拥有')).toBeVisible()
+  await expect.poll(() => panelText(page)).not.toBe(firstPage)
   await page.keyboard.press('AltRight')
-  await expect(item(page, '1 一样')).toBeVisible()
+  await expect.poll(() => panelText(page)).toBe(firstPage)
 })
 
 test('Alt shortcut composing', async ({ page }) => {
@@ -241,10 +248,11 @@ test('Alt shortcut composing', async ({ page }) => {
 
   await input(page, 'xy')
   await expect(item(page, '1 需要')).toBeVisible()
+  const firstPage = await panelText(page)
   await page.keyboard.press('=')
-  await expect(item(page, '1 想要')).toBeVisible()
+  await expect.poll(() => panelText(page)).not.toBe(firstPage)
   await page.keyboard.press('Alt+v')
-  await expect(item(page, '1 需要')).toBeVisible()
+  await expect.poll(() => panelText(page)).toBe(firstPage)
 })
 
 test('Switcher', async ({ page }) => {

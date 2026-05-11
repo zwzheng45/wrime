@@ -47,6 +47,16 @@ declare global {
   }
   type RIME_RESULT = (RIME_COMMITTED | RIME_ACCEPTED | RIME_REJECTED | RIME_UNHANDLED) & RIME_UPDATED_OPTIONS
 
+  type FLYPY_MODEL_STATUS = {
+    visible: boolean
+    model: 'none' | 'small' | 'large'
+    state: 'idle' | 'checking' | 'downloading' | 'cached' | 'ready' | 'switching' | 'active' | 'error'
+    loaded?: number
+    total?: number
+    cached?: boolean
+    detail?: string
+  }
+
   type Language = 'zh-CN' | 'zh-TW' | 'zh-HK' | 'zh-SG'
 }
 

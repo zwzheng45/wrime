@@ -149,7 +149,7 @@ async function onDeploy () {
         type="error"
         @click="onTrash"
       >
-        Purge unused
+        清理未使用资源
       </n-button>
       <n-button
         :disabled="selected.length === 0"
@@ -157,7 +157,7 @@ async function onDeploy () {
         type="info"
         @click="onDeploy"
       >
-        Deploy
+        部署
       </n-button>
     </n-space>
   </n-space>

@@ -40,6 +40,7 @@ const macOSFont = macOSFontMap[language]
 const storageKey = 'selectedFonts'
 
 const lazyCache = new LazyCache('font')
+const LIBRESERVICE_CDN: string = '__LIBRESERVICE_CDN__'
 
 async function loadFont (fontFamily: string) {
   if (loadedFonts.includes(fontFamily)) {
@@ -55,7 +56,7 @@ async function loadFont (fontFamily: string) {
   for (let i = 0; i < files.length; ++i) {
     const file = files[i]
     const url = (
-      '__LIBRESERVICE_CDN__' // eslint-disable-line no-constant-condition
+      LIBRESERVICE_CDN
         ? `https://cdn.jsdelivr.net/npm/@libreservice/font-collection@${version}/dist/`
         : './'
     ) + file
@@ -102,7 +103,7 @@ onMounted(() => {
 
 <template>
   <n-space>
-    Font for uncommon characters
+    生僻字字体
     <n-checkbox-group
       :value="selectedFonts"
       @update:value="updateFonts"

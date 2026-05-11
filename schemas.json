@@ -6,6 +6,17 @@
     "emoji": true,
     "target": "luna-pinyin",
     "dependencies": ["stroke"],
+    "variants": [
+      {
+        "id": "zh_hans",
+        "name": "简"
+      },
+      {
+        "id": "zh_hant",
+        "name": "繁",
+        "languages": ["zh-HK", "zh-TW"]
+      }
+    ],
     "family": [
       {
         "id": "luna_pinyin_fluency",
@@ -79,6 +90,90 @@
       }
     ],
     "license": "GPL-3.0-only"
+  },
+  {
+    "id": "flypy_xhfast",
+    "name": "小鹤音形",
+    "group": "双拼",
+    "target": "local/flypy-xhfast",
+    "dependencies": ["melt_eng", "easy_en", "flypy_radical", "flypy_phrase"],
+    "variants": [
+      {
+        "id": "traditionalization",
+        "name": "简",
+        "value": false
+      },
+      {
+        "id": "traditionalization",
+        "name": "繁",
+        "value": true,
+        "languages": ["zh-HK", "zh-TW"]
+      }
+    ],
+    "resources": [
+      {
+        "name": "custom_phrase.txt"
+      },
+      {
+        "name": "dbpy_flypy_help.txt"
+      },
+      {
+        "name": "idiom_phrase.txt"
+      },
+      {
+        "name": "zh-hans-t-essay-bgw.gram"
+      }
+    ],
+    "family": [
+      {
+        "id": "flypy_xhfast_lts",
+        "name": "小鹤音形·大模型",
+        "disabled": true,
+        "build": true,
+        "resources": [
+          {
+            "name": "custom_phrase.txt"
+          },
+          {
+            "name": "dbpy_flypy_help.txt"
+          },
+          {
+            "name": "idiom_phrase.txt"
+          },
+          {
+            "name": "lts_phrase.txt"
+          },
+          {
+            "name": "wanxiang-lts-zh-hans.gram"
+          }
+        ]
+      },
+      {
+        "id": "melt_eng",
+        "name": "飞鹤英文",
+        "disabled": true,
+        "build": true
+      },
+      {
+        "id": "easy_en",
+        "name": "飞鹤简明英文",
+        "disabled": true,
+        "build": true
+      },
+      {
+        "id": "flypy_radical",
+        "name": "飞鹤部件组字",
+        "disabled": true,
+        "build": true
+      },
+      {
+        "id": "flypy_phrase",
+        "name": "飞鹤短语",
+        "disabled": true,
+        "build": true
+      }
+    ],
+    "license": "LGPL-3.0-only"
   },
   {
     "id": "wubi86",

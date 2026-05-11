@@ -66,7 +66,7 @@ const rules = {
       let error
       if (!/^https?:\/\/\S*\/index.json$/.test(_rppi.value)) {
         if (_rppi.value) {
-          error = new Error('Invalid RPPI source')
+          error = new Error('无效的 RPPI 源')
         }
         _rppi.value = RPPI
       }
@@ -203,7 +203,7 @@ function renderSuffix (info: { option: TreeSelectOption }) {
     :rules="rules"
   >
     <n-form-item
-      label="RPPI source"
+      label="RPPI 源"
       path="rppi"
     >
       <n-input
@@ -211,7 +211,7 @@ function renderSuffix (info: { option: TreeSelectOption }) {
         clearable
       />
     </n-form-item>
-    <n-form-item label="Schema">
+    <n-form-item label="输入方案">
       <n-tree-select
         v-model:value="selectedKey"
         :loading="loadingIndex"
@@ -225,18 +225,18 @@ function renderSuffix (info: { option: TreeSelectOption }) {
           v-if="_rppi == RPPI"
           #action
         >
-          Submit a PR at <n-a
+          想收录更多方案？请向 <n-a
             href="https://github.com/rime/rppi"
             target="_blank"
           >
             rime/rppi
-          </n-a> to include more schemas!
+          </n-a> 提交 PR。
         </template>
       </n-tree-select>
     </n-form-item>
     <n-form-item
       v-if="reverseDependencies.length"
-      label="Reverse-lookup dependencies"
+      label="反查依赖"
     >
       <n-checkbox-group v-model:value="selectedReverseDependencies">
         <div
@@ -263,7 +263,7 @@ function renderSuffix (info: { option: TreeSelectOption }) {
       :disabled="!selectedKey || downloading"
       @click="onClick"
     >
-      Install
+      安装
     </n-button>
   </div>
 </template>

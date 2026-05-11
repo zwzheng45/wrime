@@ -19,21 +19,21 @@ worker.control('deployStatus', async (status: 'start' | 'failure' | 'success', s
   switch (status) {
     case 'start':
       notification.info({
-        content: 'Deployment started',
+        content: '部署已开始',
         ...options
       })
       setLoading(true)
       break
     case 'failure':
       notification.error({
-        content: 'Deployment failed',
+        content: '部署失败',
         ...options
       })
       setLoading(false)
       break
     case 'success':
       notification.success({
-        content: 'Deployment succeeded',
+        content: '部署成功',
         ...options
       })
       deployed.value = true

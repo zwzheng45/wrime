@@ -3,7 +3,7 @@ import type { PlaywrightTestConfig } from '@playwright/test'
 const config: PlaywrightTestConfig = {
   expect: { timeout: 10000 },
   retries: 3,
-  webServer: {
+  webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : {
     command: 'pnpm run preview',
     port: 4173,
     reuseExistingServer: true

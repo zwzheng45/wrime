@@ -28,7 +28,7 @@ defineExpose({
   <n-input
     v-model:value="debugCode"
     clearable
-    placeholder="Send key sequence to librime"
+    placeholder="向 librime 发送按键序列"
     @keyup.enter="onEnter"
     @focus="debugMode = true"
     @blur="debugMode = false"

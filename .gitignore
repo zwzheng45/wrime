@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.pnpm-store
 dist
 dist-ssr
 *.local
@@ -39,6 +40,7 @@ public/worker.js
 dependency-map.json
 schema-files.json
 schema-name.json
+schema-resources.json
 schema-target.json
 target-files.json
 target-version.json

@@ -149,13 +149,16 @@ async function analyze (result: RIME_RESULT, rimeKey: string) {
     preEditBody.value = result.body
     preEditTail.value = result.tail
     highlighted.value = result.highlighted
-    menuOptions.value = result.candidates.map((candidate, i) => {
+    const options: MenuOption[] = []
+    for (let i = 0; i < result.candidates.length; ++i) {
+      const candidate = result.candidates[i]
       let label = `${result.selectLabels?.[i] || i + 1} ${candidate.text}`
       if (candidate.comment && (hideComment.value === false || (hideComment.value === 'emoji' && !isEmoji(candidate.text)))) {
         label += ' ' + candidate.comment
       }
-      return { label, key: i }
-    })
+      options.push({ label, key: i })
+    }
+    menuOptions.value = options
     prevDisabled.value = result.page === 0
     nextDisabled.value = result.isLastPage
     if (!showMenu.value) {

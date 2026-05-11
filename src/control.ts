@@ -4,7 +4,8 @@ import {
   setIME,
   resetUserDirectory,
   FS,
-  deploy
+  deploy,
+  worker
 } from './workerAPI'
 import {
   getQueryString,
@@ -49,6 +50,15 @@ const schemaId = ref<string>(schemas[0].id)
 const ime = ref<string>('') // visual vs internal
 
 const loading = ref<boolean>(true)
+const flypyModelStatus = ref<FLYPY_MODEL_STATUS>({
+  visible: false,
+  model: 'none',
+  state: 'idle'
+})
+
+worker.control('flypyModelStatus', (status: FLYPY_MODEL_STATUS) => {
+  flypyModelStatus.value = status
+})
 
 function setLoading (value: boolean) {
   showVariant.value = !value
@@ -89,6 +99,7 @@ const selectOptions = ref<typeof defaultSelectOptions>([])
 type Variants = {
   id: string,
   name: string,
+  value?: boolean,
   languages?: Language[]
 }[]
 
@@ -101,7 +112,7 @@ function convertVariants (variants: Variants | undefined) {
     if (variants.length) {
       return variants.map(variant => ({
         ...variant,
-        value: true
+        value: variant.value ?? true
       }))
     }
     return [{
@@ -390,6 +401,7 @@ export {
   autoCopy,
   forceVertical,
   loading,
+  flypyModelStatus,
   schemaId,
   ime,
   defaultSelectOptions,

@@ -47,7 +47,7 @@ jobs:
           node-version: 21.x
       - name: Install node dependencies
         run: |
-          npm i -g pnpm
+          npm i -g pnpm@9.15.9
           pnpm i
           npx playwright install ${{ matrix.browser }}
           npx playwright install-deps ${{ matrix.browser }}
