@@ -44,6 +44,18 @@ type FetchPrebuiltOptions = {
   onProgress?: (progress: DownloadProgress) => void
 }
 
+function hasPrebuiltSchema (schemaId: string) {
+  return Object.prototype.hasOwnProperty.call(schemaFiles, schemaId) &&
+    Object.prototype.hasOwnProperty.call(schemaTarget, schemaId)
+}
+
+async function ensurePrebuilt (schemaId: string, options: FetchPrebuiltOptions = {}) {
+  if (!hasPrebuiltSchema(schemaId)) {
+    return
+  }
+  await fetchPrebuilt(schemaId, options)
+}
+
 async function getWithProgress (
   name: string,
   md5: string,
@@ -365,7 +377,7 @@ async function setIME (schemaId: string) {
   if (schemaId !== FLYPY_XHFAST) {
     emitFlypyHiddenStatus()
   }
-  if (!deployed && schemaId === FLYPY_XHFAST && hasFlypyLtsReadyMarker()) {
+  if (schemaId === FLYPY_XHFAST && hasFlypyLtsReadyMarker()) {
     try {
       emitFlypyModelStatus({
         visible: true,
@@ -373,7 +385,7 @@ async function setIME (schemaId: string) {
         state: 'checking',
         detail: '检查万象 LTS 缓存'
       })
-      await fetchPrebuilt(FLYPY_XHFAST_LTS, {
+      await ensurePrebuilt(FLYPY_XHFAST_LTS, {
         trackResource: FLYPY_LARGE_MODEL,
         onProgress: emitFlypyDownloadStatus
       })
@@ -401,11 +413,9 @@ async function setIME (schemaId: string) {
       console.warn('Failed to load cached flypy large grammar model.', error)
     }
   }
-  if (!deployed) {
-    await fetchPrebuilt(schemaId)
-  }
+  await ensurePrebuilt(schemaId)
   await selectSchema(schemaId)
-  if (!deployed && schemaId === FLYPY_XHFAST) {
+  if (schemaId === FLYPY_XHFAST) {
     emitFlypyModelStatus({
       visible: true,
       model: 'small',
@@ -446,28 +456,28 @@ const readyPromise = loadWasm('rime.js', {
   Module: {
     // Customize for glog
     printErr (message: string) {
-      const match = message.match(/[EWID]\S+ \S+ \S+ (.*)/)
-      if (match) {
-        ({
-          E: console.error,
-          W: console.warn,
-          I: console.info,
-          D: console.debug
-        })[message[0] as 'E' | 'W' | 'I' | 'D'](match[1])
+      const match = message.match(/^([EWID])\S*\s+\S+\s+\S+\s+(.*)$/)
+      const loggers: {[level: string]: (content: string) => void} = {
+        E: content => console.error(content),
+        W: content => console.warn(content),
+        I: content => console.info(content),
+        D: content => console.debug(content)
+      }
+      const level = match?.[1]
+      const content = match?.[2] || message
+      const logger = level ? loggers[level] : undefined
+      if (logger) {
+        logger(content)
       } else {
-        console.error(message)
+        console.error(content)
       }
     }
   }
 })
 
-let deployed = false
 const deployStatus = control('deployStatus')
 // @ts-ignore
 globalThis._deployStatus = (status: 'start' | 'failure' | 'success', schemas: string) => { // called from api.cpp
-  if (status === 'success') {
-    deployed = true
-  }
   deployStatus(status, schemas)
 }
 
@@ -490,7 +500,6 @@ function rmStar (path: string) {
 async function resetUserDirectory () {
   rmStar(RIME_USER)
   await syncUserDirectory('write')
-  deployed = false
   activeSchemaId = ''
   hasComposition = false
   flypyUpgradePromise = undefined
